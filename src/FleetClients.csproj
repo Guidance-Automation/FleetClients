@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<PackageVersion>4.0.0-alpha.1</PackageVersion>
+		<Platforms>x64</Platforms>
+		<ImplicitUsings>true</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<Authors>Martin Davies, Callum Clarke, Ollie Sharratt</Authors>
+		<Copyright>Guidance Automation 2024</Copyright>
+		<Description>Fleet client components for Guidance Automation schedulers.</Description>
+		<RepositoryUrl>https://github.com/GuidanceAutomation/FleetClients</RepositoryUrl>
+		<PackageId>FleetClients</PackageId>
+		<Company>Guidance Automation LTD</Company>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+	</PropertyGroup>
+
+
+	<ItemGroup>
+		<PackageReference Include="GAAPICommon" Version="2.0.0-alpha.19" />
+		<PackageReference Include="Grpc.Net.Client" Version="2.63.0" />
+		<PackageReference Include="Grpc.Net.ClientFactory" Version="2.62.0" />
+		<PackageReference Include="protobuf-net.Grpc" Version="1.1.1" />
+		<None Include="..\README.md" Pack="true" PackagePath="\" />
+	</ItemGroup>
+
+</Project>
