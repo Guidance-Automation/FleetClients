@@ -118,4 +118,9 @@ public interface IFleetManagerClient : IDisposable
     /// <param name="pose">The new pose of the vehicle.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains the success status of the operation.</returns>
     public Task<bool> SetPoseAsync(string ipAddress, PoseDto pose);
+
+    /// <summary>
+    /// Unsubscribe from fleet state updates.
+    /// </summary>
+    public void Unsubscribe();
 }

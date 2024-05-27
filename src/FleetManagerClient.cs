@@ -17,7 +17,7 @@ public class FleetManagerClient : IFleetManagerClient
 {
     private bool _isDisposed;
     private readonly GrpcChannel? _channel;
-    private readonly CancellationTokenSource _cts = new();
+    private CancellationTokenSource? _cts;
     private readonly FleetManagerServiceProto.FleetManagerServiceProtoClient _client;
     private readonly ILogger? _logger;
 
@@ -27,34 +27,17 @@ public class FleetManagerClient : IFleetManagerClient
     public event Action<FleetState>? FleetStateUpdated;
 
     /// <summary>
-    /// Initializes a new instance of the FleetManagerClient class using a URI.
-    /// </summary>
-    /// <param name="uri">The URI of the gRPC service.</param>
-    /// <param name="subscribe">The settings for the client.</param>
-    /// <param name="logger">Logger for logging messages.</param>
-    public FleetManagerClient(Uri uri, FleetManagerClientSettings settings, ILogger<FleetManagerClient>? logger = null)
-    {
-        _logger = logger;
-        _logger?.LogTrace("[FleetManagerClient] Creating GrpcChannel to {Uri}", uri);
-        _channel = GrpcChannel.ForAddress(uri);
-        _client = new FleetManagerServiceProto.FleetManagerServiceProtoClient(_channel);
-        _logger?.LogInformation("[FleetManagerClient] FleetManagerClient created with URI {Uri}", uri);
-        if (settings.Subscribe)
-            Task.Run(Subscribe);
-    }
-
-    /// <summary>
     /// Initializes a new instance of the FleetManagerClient class using an existing client instance.
     /// Intended for use with dependancy injection.
     /// </summary>
     /// <param name="client">An existing instance of the FleetManagerServiceProtoClient.</param>
     /// <param name="settings">The settings for the client.</param>
     /// <param name="logger">Logger for logging messages.</param>
-    public FleetManagerClient(FleetManagerServiceProto.FleetManagerServiceProtoClient client, FleetManagerClientSettings settings, ILogger<FleetManagerClient> logger)
+    public FleetManagerClient(FleetManagerServiceProto.FleetManagerServiceProtoClient client, FleetManagerClientSettings settings, ILogger<FleetManagerClient>? logger)
     {
         _client = client;
         _logger = logger;
-        _logger.LogInformation("[FleetManagerClient] FleetManagerClient created with existing client instance");
+        _logger?.LogInformation("[FleetManagerClient] FleetManagerClient created with existing client instance");
         if (settings.Subscribe)
             Task.Run(Subscribe);
     }
@@ -510,11 +493,21 @@ public class FleetManagerClient : IFleetManagerClient
     }
 
     /// <summary>
+    /// Unsubscribe from fleet state updates.
+    /// </summary>
+    public void Unsubscribe()
+    {
+        _logger?.LogInformation("[FleetManagerClient] unsubscribing from fleet state updates");
+        _cts?.Cancel();
+    }
+
+    /// <summary>
     /// Subscribes to fleet state updates and raises the FleetStateUpdated event when an update is received.
     /// </summary>
     private async Task Subscribe()
     {
         _logger?.LogTrace("[FleetManagerClient] Subscribe() started");
+        _cts = new();
         while (!_cts.IsCancellationRequested)
         {
             try
@@ -544,15 +537,6 @@ public class FleetManagerClient : IFleetManagerClient
     }
 
     /// <summary>
-    /// Unsubscribes from fleet state updates.
-    /// </summary>
-    public virtual void Unsubscribe()
-    {
-        _logger?.LogInformation("[FleetManagerClient] unsubscribing from fleet state updates");
-        _cts.Cancel();
-    }
-
-    /// <summary>
     /// Disposes of the client resources.
     /// </summary>
     /// <param name="disposing">Indicates whether the method is called from the Dispose method or from a finalizer.</param>
@@ -564,8 +548,8 @@ public class FleetManagerClient : IFleetManagerClient
         if (disposing)
         {
             _logger?.LogTrace("[FleetManagerClient] Disposing resources");
-            _cts.Cancel();
-            _cts.Dispose();
+            Unsubscribe();
+            _cts?.Dispose();
             _channel?.Dispose();
         }
 
