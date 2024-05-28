@@ -20,6 +20,7 @@ public class FleetManagerClient : IFleetManagerClient
     private CancellationTokenSource? _cts;
     private readonly FleetManagerServiceProto.FleetManagerServiceProtoClient _client;
     private readonly ILogger? _logger;
+    private FleetState? _fleetState;
 
     /// <summary>
     /// Event that is triggered when the fleet state is updated.
@@ -40,6 +41,16 @@ public class FleetManagerClient : IFleetManagerClient
         _logger?.LogInformation("[FleetManagerClient] FleetManagerClient created with existing client instance");
         if (settings.Subscribe)
             Task.Run(Subscribe);
+    }
+
+    /// <summary>
+    /// Get the latest fleet state.
+    /// </summary>
+    /// <returns>The most recent fleet state.</returns>
+    public FleetState? GetFleetState()
+    {
+        _logger?.LogTrace("[FleetManagerClient] GetFleetState() called");
+        return _fleetState;
     }
 
     /// <summary>
@@ -514,12 +525,13 @@ public class FleetManagerClient : IFleetManagerClient
             {
                 SubscribeRequest subscribeRequest = new();
                 _logger?.LogDebug("[FleetManagerClient] Sending SubscribeRequest");
-                using AsyncServerStreamingCall<GAAPICommon.Messages.FleetStateDto> streamingCall = _client.Subscribe(subscribeRequest);
+                using AsyncServerStreamingCall<FleetStateDto> streamingCall = _client.Subscribe(subscribeRequest);
 
-                await foreach (GAAPICommon.Messages.FleetStateDto? fleetStateDto in streamingCall.ResponseStream.ReadAllAsync(_cts.Token))
+                await foreach (FleetStateDto? fleetStateDto in streamingCall.ResponseStream.ReadAllAsync(_cts.Token))
                 {
                     _logger?.LogTrace("[FleetManagerClient] Received FleetStateDto: {FleetStateDto}", fleetStateDto);
-                    FleetStateUpdated?.Invoke(fleetStateDto.ToFleetState());
+                    _fleetState = fleetStateDto.ToFleetState();
+                    FleetStateUpdated?.Invoke(_fleetState);
                 }
             }
             catch (RpcException ex) when (ex.StatusCode == StatusCode.Cancelled)

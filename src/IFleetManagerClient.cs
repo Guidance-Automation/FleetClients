@@ -32,6 +32,12 @@ public interface IFleetManagerClient : IDisposable
     public Task<bool> CreateVirtualVehicleAsync(IPAddress ipAddress, PoseDto pose);
 
     /// <summary>
+    /// Get the latest fleet state.
+    /// </summary>
+    /// <returns>The most recent fleet state.</returns>
+    public FleetState? GetFleetState();
+
+    /// <summary>
     /// Gets the kingpin description.
     /// </summary>
     /// <param name="ipAddress">The IP address of the kingpin.</param>
