@@ -21,6 +21,7 @@ public class FleetManagerClient : IFleetManagerClient
     private readonly FleetManagerServiceProto.FleetManagerServiceProtoClient _client;
     private readonly ILogger? _logger;
     private FleetState? _fleetState;
+    private readonly bool _rethrow;
 
     /// <summary>
     /// Event that is triggered when the fleet state is updated.
@@ -39,6 +40,7 @@ public class FleetManagerClient : IFleetManagerClient
         _client = client;
         _logger = logger;
         _logger?.LogInformation("[FleetManagerClient] FleetManagerClient created with existing client instance");
+        _rethrow = settings.RethrowExceptions;
         if (settings.Subscribe)
             Task.Run(Subscribe);
     }
@@ -59,33 +61,34 @@ public class FleetManagerClient : IFleetManagerClient
     /// <param name="ipAddress">The IP address of the vehicle.</param>
     /// <param name="pose">The initial pose of the vehicle.</param>
     /// <returns>True if the vehicle was created successfully, otherwise false.</returns>
-    public bool CreateVirtualVehicle(IPAddress ipAddress, PoseDto pose)
+    public IPAddress? CreateVirtualVehicle(PoseDto pose)
     {
         _logger?.LogTrace("[FleetManagerClient] CreateVirtualVehicle() called");
         try
         {
             CreateVirtualVehicleRequest request = new()
             {
-                IPAddress = ipAddress.ToString(),
                 Pose = pose
             };
             _logger?.LogDebug("[FleetManagerClient] Sending CreateVirtualVehicleRequest");
-            GenericResult response = _client.CreateVirtualVehicle(request);
+            CreateVirtualVehicleResult response = _client.CreateVirtualVehicle(request);
             if (response.ServiceCode == (int)ServiceCode.NoError)
             {
                 _logger?.LogInformation("CreateVirtualVehicle() succeeded");
-                return true;
+                return IPAddress.Parse(response.IPAddress);
             }
             else
             {
                 _logger?.LogError("[FleetManagerClient] Sending CreateVirtualVehicle() failed with {ServiceCode} and message {ExceptionMessage}", response.ServiceCode, response.ExceptionMessage);
-                return false;
+                return null;
             }
         }
         catch (Exception ex)
         {
             _logger?.LogError(ex, "[FleetManagerClient] Error creating virtual vehicle");
-            return false;
+            if (_rethrow)
+                throw;
+            return null;
         }
     }
 
@@ -95,33 +98,34 @@ public class FleetManagerClient : IFleetManagerClient
     /// <param name="ipAddress">The IP address of the vehicle.</param>
     /// <param name="pose">The initial pose of the vehicle.</param>
     /// <returns>True if the vehicle was created successfully, otherwise false.</returns>
-    public async Task<bool> CreateVirtualVehicleAsync(IPAddress ipAddress, PoseDto pose)
+    public async Task<IPAddress?> CreateVirtualVehicleAsync(PoseDto pose)
     {
         _logger?.LogTrace("[FleetManagerClient] CreateVirtualVehicleAsync() called");
         try
         {
             CreateVirtualVehicleRequest request = new()
             {
-                IPAddress = ipAddress.ToString(),
                 Pose = pose
             };
             _logger?.LogDebug("[FleetManagerClient] Sending CreateVirtualVehicleRequest");
-            GenericResult response = await _client.CreateVirtualVehicleAsync(request);
+            CreateVirtualVehicleResult response = await _client.CreateVirtualVehicleAsync(request);
             if (response.ServiceCode == (int)ServiceCode.NoError)
             {
                 _logger?.LogInformation("CreateVirtualVehicleAsync() succeeded");
-                return true;
+                return IPAddress.Parse(response.IPAddress);
             }
             else
             {
                 _logger?.LogError("[FleetManagerClient] Sending CreateVirtualVehicleAsync() failed with {ServiceCode} and message {ExceptionMessage}", response.ServiceCode, response.ExceptionMessage);
-                return false;
+                return null;
             }
         }
         catch (Exception ex)
         {
             _logger?.LogError(ex, "[FleetManagerClient] Error creating virtual vehicle");
-            return false;
+            if (_rethrow)
+                throw;
+            return null;
         }
     }
 
@@ -152,6 +156,8 @@ public class FleetManagerClient : IFleetManagerClient
         catch (Exception ex)
         {
             _logger?.LogError(ex, "[FleetManagerClient] Error getting kingpin description");
+            if (_rethrow)
+                throw;
             return null;
         }
     }
@@ -183,6 +189,8 @@ public class FleetManagerClient : IFleetManagerClient
         catch (Exception ex)
         {
             _logger?.LogError(ex, "[FleetManagerClient] Error getting kingpin description");
+            if (_rethrow)
+                throw;
             return null;
         }
     }
@@ -214,6 +222,8 @@ public class FleetManagerClient : IFleetManagerClient
         catch (Exception ex)
         {
             _logger?.LogError(ex, "[FleetManagerClient] Error removing vehicle");
+            if (_rethrow)
+                throw;
             return false;
         }
     }
@@ -245,6 +255,8 @@ public class FleetManagerClient : IFleetManagerClient
         catch (Exception ex)
         {
             _logger?.LogError(ex, "[FleetManagerClient] Error removing vehicle");
+            if (_rethrow)
+                throw;
             return false;
         }
     }
@@ -276,6 +288,8 @@ public class FleetManagerClient : IFleetManagerClient
         catch (Exception ex)
         {
             _logger?.LogError(ex, "[FleetManagerClient] Error setting fleet state");
+            if (_rethrow)
+                throw;
             return false;
         }
     }
@@ -307,6 +321,8 @@ public class FleetManagerClient : IFleetManagerClient
         catch (Exception ex)
         {
             _logger?.LogError(ex, "[FleetManagerClient] Error setting fleet state");
+            if (_rethrow)
+                throw;
             return false;
         }
     }
@@ -339,6 +355,8 @@ public class FleetManagerClient : IFleetManagerClient
         catch (Exception ex)
         {
             _logger?.LogError(ex, "[FleetManagerClient] Error setting fleet frozen state");
+            if (_rethrow)
+                throw;
             return false;
         }
     }
@@ -371,6 +389,8 @@ public class FleetManagerClient : IFleetManagerClient
         catch (Exception ex)
         {
             _logger?.LogError(ex, "[FleetManagerClient] Error setting fleet frozen state");
+            if (_rethrow)
+                throw;
             return false;
         }
     }
@@ -403,6 +423,8 @@ public class FleetManagerClient : IFleetManagerClient
         catch (Exception ex)
         {
             _logger?.LogError(ex, "[FleetManagerClient] Error setting kingpin state");
+            if (_rethrow)
+                throw;
             return false;
         }
     }
@@ -435,6 +457,8 @@ public class FleetManagerClient : IFleetManagerClient
         catch (Exception ex)
         {
             _logger?.LogError(ex, "[FleetManagerClient] Error setting kingpin state");
+            if (_rethrow)
+                throw;
             return false;
         }
     }
@@ -467,6 +491,8 @@ public class FleetManagerClient : IFleetManagerClient
         catch (Exception ex)
         {
             _logger?.LogError(ex, "[FleetManagerClient] Error setting pose");
+            if (_rethrow)
+                throw;
             return false;
         }
     }
@@ -499,6 +525,8 @@ public class FleetManagerClient : IFleetManagerClient
         catch (Exception ex)
         {
             _logger?.LogError(ex, "[FleetManagerClient] Error setting pose");
+            if (_rethrow)
+                throw;
             return false;
         }
     }

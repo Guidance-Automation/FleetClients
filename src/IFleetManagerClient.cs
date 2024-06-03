@@ -18,18 +18,16 @@ public interface IFleetManagerClient : IDisposable
     /// <summary>
     /// Creates a virtual vehicle.
     /// </summary>
-    /// <param name="ipAddress">The IP address of the vehicle.</param>
     /// <param name="pose">The initial pose of the vehicle.</param>
     /// <returns>True if the vehicle was created successfully, otherwise false.</returns>
-    public bool CreateVirtualVehicle(IPAddress ipAddress, PoseDto pose);
+    public IPAddress? CreateVirtualVehicle(PoseDto pose);
 
     /// <summary>
     /// Creates a virtual vehicle asynchronously.
     /// </summary>
-    /// <param name="ipAddress">The IP address of the vehicle.</param>
     /// <param name="pose">The initial pose of the vehicle.</param>
     /// <returns>True if the vehicle was created successfully, otherwise false.</returns>
-    public Task<bool> CreateVirtualVehicleAsync(IPAddress ipAddress, PoseDto pose);
+    public Task<IPAddress?> CreateVirtualVehicleAsync(PoseDto pose);
 
     /// <summary>
     /// Get the latest fleet state.
