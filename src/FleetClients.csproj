@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>net8.0</TargetFramework>
-		<PackageVersion>4.0.0</PackageVersion>
+		<PackageVersion>4.0.1</PackageVersion>
 		<Platforms>x64</Platforms>
 		<ImplicitUsings>true</ImplicitUsings>
 		<Nullable>enable</Nullable>
