@@ -4,7 +4,6 @@ using GAAPICommon.Enums;
 using GAAPICommon.Messages;
 using GAAPICommon.Services.FleetManager;
 using Grpc.Core;
-using Grpc.Net.Client;
 using Microsoft.Extensions.Logging;
 using System.Net;
 
@@ -16,7 +15,6 @@ namespace GAClients.FleetClients;
 public class FleetManagerClient : IFleetManagerClient
 {
     private bool _isDisposed;
-    private readonly GrpcChannel? _channel;
     private CancellationTokenSource? _cts;
     private readonly FleetManagerServiceProto.FleetManagerServiceProtoClient _client;
     private readonly ILogger? _logger;
@@ -30,7 +28,7 @@ public class FleetManagerClient : IFleetManagerClient
 
     /// <summary>
     /// Initializes a new instance of the FleetManagerClient class using an existing client instance.
-    /// Intended for use with dependancy injection.
+    /// Intended for use with dependency injection.
     /// </summary>
     /// <param name="client">An existing instance of the FleetManagerServiceProtoClient.</param>
     /// <param name="settings">The settings for the client.</param>
@@ -590,7 +588,6 @@ public class FleetManagerClient : IFleetManagerClient
             _logger?.LogTrace("[FleetManagerClient] Disposing resources");
             Unsubscribe();
             _cts?.Dispose();
-            _channel?.Dispose();
         }
 
         _isDisposed = true;
