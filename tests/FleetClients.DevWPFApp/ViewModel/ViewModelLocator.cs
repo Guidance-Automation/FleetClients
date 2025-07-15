@@ -1,4 +1,4 @@
-﻿namespace GAClients.FleetClients.DevWPFApp.ViewModel;
+﻿namespace Guidance.FleetClients.DevWPFApp.ViewModel;
 
 public static class ViewModelLocator
 {

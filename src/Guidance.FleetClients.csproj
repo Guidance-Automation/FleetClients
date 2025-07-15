@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<PackageVersion>4.0.4</PackageVersion>
+		<PackageVersion>4.1.0</PackageVersion>
 		<Platforms>x64</Platforms>
 		<Authors>Martin Davies, Callum Clarke, Ollie Sharratt</Authors>
 		<Copyright>Guidance Automation 2025</Copyright>
@@ -16,7 +16,7 @@
 
 
 	<ItemGroup>
-		<PackageReference Include="GAAPICommon" Version="2.3.*" />
+		<PackageReference Include="GAAPICommon" Version="2.4.*" />
 		<PackageReference Include="Grpc.Net.Client" Version="2.*" />
 		<PackageReference Include="Grpc.Net.ClientFactory" Version="2.*" />
 		<PackageReference Include="protobuf-net.Grpc" Version="1.*" />

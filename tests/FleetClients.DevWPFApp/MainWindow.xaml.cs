@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace GAClients.FleetClients.DevWPFApp;
+namespace Guidance.FleetClients.DevWPFApp;
 
 /// <summary>
 /// Interaction logic for MainWindow.xaml

@@ -1,4 +1,4 @@
-﻿namespace GAClients.FleetClients;
+﻿namespace Guidance.FleetClients;
 
 /// <summary>
 /// Settings to pass to the Fleet Manager Client.

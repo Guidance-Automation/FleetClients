@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace FleetClientsCore.DevWPFApp;
+namespace Guidance.FleetClients.DevWPFApp;
 
 /// <summary>
 /// Interaction logic for App.xaml

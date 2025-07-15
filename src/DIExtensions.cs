@@ -1,10 +1,10 @@
 ﻿using GAAPICommon.Services.FleetManager;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace GAClients.FleetClients;
+namespace Guidance.FleetClients;
 
 /// <summary>
-/// Extension methods to provide support for dependancy injection.
+/// Extension methods to provide support for dependency injection.
 /// </summary>
 public static class DIExtensions
 {

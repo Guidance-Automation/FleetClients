@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace GAClients.FleetClients.DevWPFApp.View;
+namespace Guidance.FleetClients.DevWPFApp.View;
 
 /// <summary>
 /// Interaction logic for FleetManagerClientView.xaml
