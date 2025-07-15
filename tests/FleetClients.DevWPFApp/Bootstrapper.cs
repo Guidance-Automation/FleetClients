@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace GAClients.FleetClients.DevWPFApp;
+namespace Guidance.FleetClients.DevWPFApp;
 
 internal static class Bootstrapper
 {

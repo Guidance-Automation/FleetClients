@@ -1,8 +1,8 @@
-﻿namespace GAClients.FleetClients.DevConsoleApp;
+﻿namespace Guidance.FleetClients.DevConsoleApp;
 
 public class Program
 {
-    static void Main(string[] args)
+    static void Main(string[] _)
     {
         ClientHandler handler = new();
         handler.Init();

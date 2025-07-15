@@ -8,16 +8,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 		.gitignore = .gitignore
 		Directory.Build.props = Directory.Build.props
-		LICENSE = LICENSE
+		LICENCE = LICENCE
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FleetClients", "src\FleetClients.csproj", "{389E8E2B-99E9-4958-B963-B5BDC5EEA814}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Guidance.FleetClients", "src\Guidance.FleetClients.csproj", "{389E8E2B-99E9-4958-B963-B5BDC5EEA814}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{18E0D2B3-B3F8-4A91-82BF-8E9E8E1DBB7F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FleetClients.DevConsoleApp", "tests\FleetClients.DevConsoleApp\FleetClients.DevConsoleApp.csproj", "{CFC3F814-193C-4930-81C6-82B8BC3E60D0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Guidance.FleetClients.DevConsoleApp", "tests\FleetClients.DevConsoleApp\Guidance.FleetClients.DevConsoleApp.csproj", "{CFC3F814-193C-4930-81C6-82B8BC3E60D0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FleetClients.DevWPFApp", "tests\FleetClients.DevWPFApp\FleetClients.DevWPFApp.csproj", "{B1306392-279B-4A0E-8AAA-7A42F9AAFF05}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Guidance.FleetClients.DevWPFApp", "tests\FleetClients.DevWPFApp\Guidance.FleetClients.DevWPFApp.csproj", "{B1306392-279B-4A0E-8AAA-7A42F9AAFF05}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

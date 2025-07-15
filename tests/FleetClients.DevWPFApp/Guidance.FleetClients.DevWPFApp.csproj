@@ -8,11 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="GACore-windows" Version="1.*" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\FleetClients.csproj" />
+    <ProjectReference Include="..\..\src\Guidance.FleetClients.csproj" />
   </ItemGroup>
 
 </Project>

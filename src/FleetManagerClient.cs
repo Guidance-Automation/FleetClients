@@ -7,7 +7,7 @@ using Grpc.Core;
 using Microsoft.Extensions.Logging;
 using System.Net;
 
-namespace GAClients.FleetClients;
+namespace Guidance.FleetClients;
 
 /// <summary>
 /// Client for interacting with the FleetManager service.

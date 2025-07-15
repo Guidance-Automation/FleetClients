@@ -1,7 +1,7 @@
 ﻿using GAAPICommon.Constructors;
 using System.Net;
 
-namespace GAClients.FleetClients.DevConsoleApp;
+namespace Guidance.FleetClients.DevConsoleApp;
 
 public class ClientHandler
 {

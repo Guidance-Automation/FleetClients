@@ -3,7 +3,7 @@ using Grpc.Net.Client;
 using Microsoft.Extensions.Logging;
 using System.Net;
 
-namespace GAClients.FleetClients;
+namespace Guidance.FleetClients;
 
 /// <summary>
 /// Class containing methods to create the client without requiring the use of DI.

@@ -3,7 +3,7 @@ using GAAPICommon.Enums;
 using GAAPICommon.Messages;
 using System.Net;
 
-namespace GAClients.FleetClients;
+namespace Guidance.FleetClients;
 
 /// <summary>
 /// Client for interacting with the FleetManager service.

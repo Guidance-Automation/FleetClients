@@ -2,10 +2,9 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
-using GACore.UI.Command;
 using GAAPICommon.Enums;
 
-namespace GAClients.FleetClients.DevWPFApp.ViewModel;
+namespace Guidance.FleetClients.DevWPFApp.ViewModel;
 
 public class FleetManagerClientViewModel : INotifyPropertyChanged
 {
