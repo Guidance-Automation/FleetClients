@@ -1,0 +1,16 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path=".gitignore" />
+    <File Path="Directory.Build.props" />
+    <File Path="LICENCE" />
+  </Folder>
+  <Folder Name="/Tests/">
+    <Project Path="tests/FleetClients.DevConsoleApp/Guidance.FleetClients.DevConsoleApp.csproj">
+    </Project>
+    <Project Path="tests/FleetClients.DevWPFApp/Guidance.FleetClients.DevWPFApp.csproj">
+    </Project>
+  </Folder>
+  <Project Path="src/Guidance.FleetClients.csproj">
+  </Project>
+</Solution>

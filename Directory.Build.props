@@ -1,6 +1,6 @@
 <Project>
 	<PropertyGroup>
-		<TargetFramework>net9.0</TargetFramework>
+		<TargetFrameworks>net9.0;net10.0</TargetFrameworks>
 		<UseArtifactsOutput>true</UseArtifactsOutput>
 		<ImplicitUsings>true</ImplicitUsings>
 		<Nullable>enable</Nullable>
