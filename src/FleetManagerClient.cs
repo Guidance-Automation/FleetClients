@@ -15,7 +15,7 @@ namespace Guidance.FleetClients;
 public class FleetManagerClient : IFleetManagerClient
 {
     private bool _isDisposed;
-    private CancellationTokenSource? _cts;
+    private readonly CancellationTokenSource _cts = new();
     private readonly FleetManagerServiceProto.FleetManagerServiceProtoClient _client;
     private readonly ILogger? _logger;
     private FleetState? _fleetState;
@@ -535,7 +535,7 @@ public class FleetManagerClient : IFleetManagerClient
     public void Unsubscribe()
     {
         _logger?.LogInformationIfEnabled("[FleetManagerClient] unsubscribing from fleet state updates");
-        _cts?.Cancel();
+        _cts.Cancel();
     }
 
     /// <summary>
@@ -544,7 +544,6 @@ public class FleetManagerClient : IFleetManagerClient
     private async Task Subscribe()
     {
         _logger?.LogTraceIfEnabled("[FleetManagerClient] Subscribe() started");
-        _cts = new();
         while (!_cts.IsCancellationRequested)
         {
             try
@@ -557,7 +556,11 @@ public class FleetManagerClient : IFleetManagerClient
                 {
                     _logger?.LogTraceIfEnabled("[FleetManagerClient] Received FleetStateDto: {FleetStateDto}", fleetStateDto);
                     _fleetState = fleetStateDto.ToFleetState();
-                    FleetStateUpdated?.Invoke(_fleetState);
+                    SubscriptionCallbackDispatcher.Invoke(
+                        FleetStateUpdated,
+                        _fleetState,
+                        _logger,
+                        nameof(FleetManagerClient));
                 }
             }
             catch (RpcException ex) when (ex.StatusCode == StatusCode.Cancelled)
@@ -565,10 +568,21 @@ public class FleetManagerClient : IFleetManagerClient
                 _logger?.LogInformationIfEnabled("[FleetManagerClient] Subscription cancelled");
                 break;
             }
+            catch (OperationCanceledException) when (_cts.IsCancellationRequested)
+            {
+                break;
+            }
             catch (Exception ex)
             {
                 _logger?.LogWarningIfEnabled(ex, "[FleetManagerClient] Exception during subscription. Retrying...");
-                await Task.Delay(100);
+                try
+                {
+                    await Task.Delay(100, _cts.Token);
+                }
+                catch (OperationCanceledException) when (_cts.IsCancellationRequested)
+                {
+                    break;
+                }
             }
         }
         _logger?.LogTraceIfEnabled("[FleetManagerClient] Subscribe() ended");
@@ -587,7 +601,7 @@ public class FleetManagerClient : IFleetManagerClient
         {
             _logger?.LogTraceIfEnabled("[FleetManagerClient] Disposing resources");
             Unsubscribe();
-            _cts?.Dispose();
+            _cts.Dispose();
         }
 
         _isDisposed = true;
